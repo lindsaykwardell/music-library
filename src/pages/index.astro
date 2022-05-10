@@ -1,4 +1,13 @@
 ---
+import { client, query as q } from '../db.mts'
+
+const music = await client.query(
+	q.Map(
+		q.Paginate(q.Documents(q.Collection('music'))),
+		q.Lambda(x => q.Get(x))
+	)
+)
+
 let initialCount = 5; // Load/prepare initial values in frontmatter
 ---
 <html lang="en">
@@ -9,8 +18,9 @@ let initialCount = 5; // Load/prepare initial values in frontmatter
 </head>
 <body>
 	<div id="elm"></div>
+	<pre>{JSON.stringify(music.data, null, 4)}</pre>
 	<!-- Define available variables, pass in flags -->
-	<script define:vars={{initialCount}}></script>
+	<script define:vars={{initialCount, music}}></script>
 	<script hoist type="module">
 		// Import Elm program to render
 		import { Elm } from '../Main.elm'
@@ -19,7 +29,9 @@ let initialCount = 5; // Load/prepare initial values in frontmatter
 		const root = document.querySelector("#elm")
 		const app = Elm.Main.init({
 			node: root,
-			flags: initialCount // Value from frontmatter
+			flags: {
+				compositions: music.data.map(composition => composition.data)
+			} // Value from frontmatter
 		})
 	</script>
 </body>

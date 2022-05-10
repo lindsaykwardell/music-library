@@ -15,6 +15,7 @@
     "elm-tooling": "^1.8.0"
   },
   "dependencies": {
+    "faunadb": "^4.5.4",
     "vite-plugin-elm": "^2.6.1"
   }
 }

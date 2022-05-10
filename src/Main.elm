@@ -1,36 +1,52 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (button, div, text)
+import Html exposing (..)
 import Html.Events exposing (onClick)
 
 
+type alias Composition =
+    { title : String
+    , composer : String
+    , publisher : String
+    , parts : String
+    , qty : Int
+    }
+
+
+type alias Model =
+    { compositions : List Composition }
+
+
+type alias Flags =
+    { compositions : List Composition }
+
+
+init : Flags -> ( Model, Cmd Msg )
 init initialValue =
     ( initialValue, Cmd.none )
 
 
 type Msg
-    = Increment
-    | Decrement
+    = NoOp
 
 
-update : Msg -> Int -> ( Int, Cmd Msg )
-update msg model =
-    case msg of
-        Increment ->
-            ( model + 1, Cmd.none )
-
-        Decrement ->
-            ( model - 1, Cmd.none )
+update : Msg -> Model -> ( Model, Cmd Msg )
+update _ model =
+    ( model, Cmd.none )
 
 
+view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Decrement ] [ text "-" ]
-        , div [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+" ]
-        ]
+        (model.compositions
+            |> List.map
+                (\composition ->
+                    div [] [ text composition.title ]
+                )
+        )
 
 
+main : Program Flags Model Msg
 main =
     Browser.element { init = init, update = update, view = view, subscriptions = \_ -> Sub.none }
