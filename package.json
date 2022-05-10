@@ -1,0 +1,19 @@
+{
+  "name": "astro-elm-example",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "prebuild": "elm-tooling install",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@astrojs/tailwind": "^0.2.1",
+    "astro": "^1.0.0-beta.27",
+    "elm-tooling": "^1.8.0"
+  },
+  "dependencies": {
+    "vite-plugin-elm": "^2.6.1"
+  }
+}
